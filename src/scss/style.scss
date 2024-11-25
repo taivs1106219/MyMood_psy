@@ -1,0 +1,40 @@
+@import "bootstrap/scss/bootstrap";
+// @font-face {
+//   font-family: iansui;
+//   src: url('../../res/fonts/Iansui-Regular.ttf');
+// }
+
+// * {
+//   font-family: iansui;
+// }
+
+#winCtrl-bar {
+  -webkit-app-region: drag;
+  height: 38px;
+  width: 100%;
+}
+#close-btn,
+#max-btn,
+#min-btn,
+#devices-btn {
+  -webkit-app-region: none;
+}
+
+#close-btn:hover {
+  transition: 0.3s;
+}
+#max-btn:hover,
+#min-btn:hover {
+  transition: 0.3s;
+}
+
+body {
+  overflow-y: hidden;
+}
+#main-content {
+  height: calc(100vh - 38px);
+  overflow-y: auto;
+}
+.autoscroll {
+  overflow-y: auto;
+}
