@@ -28,7 +28,7 @@ const createWindow = () => {
     win.minimize();
   });
   ipcMain.handle("get-cases", async () => {
-    const files = await fs.readdir(path.join(dataPath,"cases"));
+    const files = await fs.readdir(path.join(dataPath, "cases"));
     return JSON.stringify(files);
   });
   ipcMain.on("import-config", (e, [fileName, caseName]) => {
@@ -38,10 +38,10 @@ const createWindow = () => {
         C: path.join(dataPath, "cases"),
       },
       [],
-      async(e) => {
+      async (e) => {
         await fs.rename(
-          path.join(dataPath,"cases", ".mymood_new"),
-          path.join(dataPath,"cases", caseName)
+          path.join(dataPath, "cases", ".mymood_new"),
+          path.join(dataPath, "cases", caseName)
         );
         win.webContents.send("import-completed");
       }
@@ -57,6 +57,10 @@ const createWindow = () => {
     } else {
       return filePaths[0];
     }
+  });
+  ipcMain.on("delete-case", async (e, name) => {
+    await fs.rm(path.join(dataPath, "cases", name), { recursive: true });
+    win.webContents.send("delete-completed",true)
   });
   win.loadFile("dist/index.html");
 };
