@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React from "react";
 
 import cn from "classnames"
-import icons from "../res/icons/icons";
+import icons from "../../res/icons/icons";
 
 export function Navbar() {
   function handleClick() {

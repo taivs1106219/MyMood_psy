@@ -3,7 +3,7 @@ const path = require("path");
 const autoprefixer=require("autoprefixer")
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/UI/index.js",
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: "bundle.js",
