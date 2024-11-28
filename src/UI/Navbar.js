@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 
-import cn from "classnames"
+import cn from "classnames";
 import icons from "../../res/icons/icons";
 
 export function Navbar() {
@@ -40,7 +40,7 @@ export function Navbar() {
           "align-items-center"
         )}
       >
-        MyMood
+        <h3>MyMood</h3>
       </div>
     </>
   );

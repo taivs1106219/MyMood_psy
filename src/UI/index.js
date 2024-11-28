@@ -7,23 +7,58 @@ import cn from "classnames";
 
 import Homepage from "./Homepage";
 import AddCase from "./AddCase";
+import ViewCase from "./ViewCase";
 
 function App() {
   const [pageControl, setPageControl] = useState(0);
+  const [caseControl, setCaseControl] = useState("");
 
   function CurrentPage() {
     switch (pageControl) {
       case 0:
         return (
           <Homepage
-            pageControl={{ get: pageControl, set: setPageControl }}
+            pageControl={{
+              get: () => {
+                return pageControl;
+              },
+              set: setPageControl,
+            }}
+            caseControl={{
+              get: () => {
+                return caseControl;
+              },
+              set: setCaseControl,
+            }}
           ></Homepage>
         );
       case 1:
         return (
           <AddCase
-            pageControl={{ get: pageControl, set: setPageControl }}
+            pageControl={{
+              get: () => {
+                return pageControl;
+              },
+              set: setPageControl,
+            }}
           ></AddCase>
+        );
+      case 2:
+        return (
+          <ViewCase
+            pageControl={{
+              get: () => {
+                return pageControl;
+              },
+              set: setPageControl,
+            }}
+            caseControl={{
+              get: () => {
+                return caseControl;
+              },
+              set: setCaseControl,
+            }}
+          ></ViewCase>
         );
     }
   }
@@ -33,8 +68,7 @@ function App() {
       <div id="winCtrl-bar" className={cn("d-flex", "flex-row-reverse")}>
         <Navbar></Navbar>
       </div>
-      <CurrentPage
-      ></CurrentPage>
+      <CurrentPage></CurrentPage>
     </>
   );
 }

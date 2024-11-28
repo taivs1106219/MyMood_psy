@@ -3,8 +3,9 @@ import CaseCard from "./CaseCard";
 import icons from "../../res/icons/icons";
 // import ImportModal from "./Backup/ImportModal";
 
-function Homepage({ pageControl }) {
+function Homepage({ pageControl, caseControl }) {
   const [cases, setCases] = useState([]);
+
   async function getCases() {
     const cases = JSON.parse(await api.invoke("get-cases"));
     setCases(cases);
@@ -19,10 +20,10 @@ function Homepage({ pageControl }) {
 
   useEffect(() => {
     api.handle("delete-completed", () => {
-      console.log("delete-completed")
+      console.log("delete-completed");
       getCases();
     });
-    return()=> api.removeIPCListener("delete-completed")
+    return () => api.removeIPCListener("delete-completed");
   });
 
   return (
@@ -36,7 +37,15 @@ function Homepage({ pageControl }) {
         </div>
         <div className="d-flex flex-wrap align-content-start">
           {cases.map((e, i) => {
-            return <CaseCard key={e} name={e} memo=""></CaseCard>;
+            return (
+              <CaseCard
+                key={e}
+                name={e}
+                memo=""
+                caseControl={caseControl}
+                pageControl={pageControl}
+              ></CaseCard>
+            );
           })}
         </div>
       </div>

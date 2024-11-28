@@ -1,14 +1,18 @@
 import React from "react";
 import icons from "../../res/icons/icons";
 import DeleteConfirmModal from "./DeleteConfirmModal";
+import casecardCss from "../scss/casecard.scss";
 
-function CaseCard({ name, memo }) {
-  function handleClick(name) {}
+function CaseCard({ name, memo, caseControl, pageControl }) {
+  function handleClick() {
+    caseControl.set(name);
+    pageControl.set(2)
+  }
 
   return (
     <>
       <div className="px-2 pb-3" style={{ width: "33%" }}>
-        <div className="card">
+        <div className="card casecard" onClick={handleClick}>
           <div className="card-body">
             <div className="d-flex flex-column">
               <div className="d-flex">

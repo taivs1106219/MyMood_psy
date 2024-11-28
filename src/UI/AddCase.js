@@ -17,7 +17,7 @@ function AddCase({ pageControl }) {
 
   useEffect(() => {
     api.handle("import-completed", () => {
-      pageControl.set(0)
+      pageControl.set(0);
     });
     return () => {
       api.removeIPCListener("import-completed");
@@ -71,8 +71,10 @@ function AddCase({ pageControl }) {
             >
               取消
             </button>
-            <button className="btn btn-primary rounded-pill mb-2 ms-1"
-            onClick={handleConfirm}>
+            <button
+              className="btn btn-primary rounded-pill mb-2 ms-1"
+              onClick={handleConfirm}
+            >
               加入
             </button>
           </div>

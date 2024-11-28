@@ -7,8 +7,8 @@ const tar = require("tar");
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 900,
     frame: false,
     webPreferences: {
       preload: path.join(__dirname, "src", "preload.js"),
@@ -60,7 +60,19 @@ const createWindow = () => {
   });
   ipcMain.on("delete-case", async (e, name) => {
     await fs.rm(path.join(dataPath, "cases", name), { recursive: true });
-    win.webContents.send("delete-completed",true)
+    win.webContents.send("delete-completed", true);
+  });
+  ipcMain.on("rename-case", async (e, [oldName, newName]) => {
+  
+    try {
+      await fs.rename(
+        path.join(dataPath, "cases", oldName),
+        path.join(dataPath, "cases", newName)
+      );
+      win.webContents.send("rename-completed")
+    } catch (e) {
+      win.webContents.send("rename-failed")
+    }
   });
   win.loadFile("dist/index.html");
 };
