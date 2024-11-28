@@ -3,8 +3,13 @@ import cn from "classnames";
 
 function ViewCase({ pageControl, caseControl }) {
   const caseName = useRef(caseControl.get());
+  const memo = useRef("");
 
   let delayDebounceFn;
+
+  function handleMemo(e) {
+    caseName.current = e.target.value;
+  }
 
   function handleInput(e) {
     clearTimeout(delayDebounceFn);
@@ -14,7 +19,7 @@ function ViewCase({ pageControl, caseControl }) {
     delayDebounceFn = setTimeout(() => {
       console.log(e.target.innerText);
       if (e.target.innerText != "\n") {
-        console.log("new name sent")
+        console.log("new name sent");
         api.send("rename-case", [caseControl.get(), e.target.innerText]);
       }
     }, 500);
@@ -86,6 +91,13 @@ function ViewCase({ pageControl, caseControl }) {
         >
           {caseName.current}
         </p>
+        <div className="form-group">
+          <textarea
+            className="form-control"
+            onInput={(e) => handleMemo(e)}
+            placeholder="輸入案例備註"
+          ></textarea>
+        </div>
       </div>
     </>
   );
