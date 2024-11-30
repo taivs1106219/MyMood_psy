@@ -63,15 +63,24 @@ const createWindow = () => {
     win.webContents.send("delete-completed", true);
   });
   ipcMain.on("rename-case", async (e, [oldName, newName]) => {
-  
     try {
       await fs.rename(
         path.join(dataPath, "cases", oldName),
         path.join(dataPath, "cases", newName)
       );
-      win.webContents.send("rename-completed")
+      win.webContents.send("rename-completed");
     } catch (e) {
-      win.webContents.send("rename-failed")
+      win.webContents.send("rename-failed");
+    }
+  });
+  ipcMain.handle("request-data", async (e, [caseName, fileName]) => {
+    console.log(caseName,fileName)
+    try {
+      const filePath = path.join(dataPath, "cases", caseName, fileName)
+      const data=await fs.readFile(filePath);
+      return(data.toString())
+    } catch (e) {
+      console.log(e)
     }
   });
   win.loadFile("dist/index.html");

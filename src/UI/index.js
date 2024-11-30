@@ -8,6 +8,7 @@ import cn from "classnames";
 import Homepage from "./Homepage";
 import AddCase from "./AddCase";
 import ViewCase from "./ViewCase";
+import MoodNoteViewer from "./CaseViewers/MoodNoteViewer";
 
 function App() {
   const [pageControl, setPageControl] = useState(0);
@@ -60,6 +61,23 @@ function App() {
             }}
           ></ViewCase>
         );
+      case 3:
+        return (
+          <MoodNoteViewer
+            pageControl={{
+              get: () => {
+                return pageControl;
+              },
+              set: setPageControl,
+            }}
+            caseControl={{
+              get: () => {
+                return caseControl;
+              },
+              set: setCaseControl,
+            }}
+          ></MoodNoteViewer>
+        );
     }
   }
 
@@ -75,6 +93,7 @@ function App() {
 
 async function main() {
   const root = document.createElement("div");
+  root.setAttribute("id","app")
   document.body.appendChild(root);
   const reactRoot = createRoot(root);
   reactRoot.render(<App></App>);

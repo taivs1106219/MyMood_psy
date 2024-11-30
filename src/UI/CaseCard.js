@@ -11,7 +11,7 @@ function CaseCard({ name, memo, caseControl, pageControl }) {
 
   return (
     <>
-      <div className="px-2 pb-3" style={{ width: "33%" }}>
+      <div className="px-2 pb-3" style={{ maxWidth: "40rem",minWidth:"25rem" }}>
         <div className="card casecard" onClick={handleClick}>
           <div className="card-body">
             <div className="d-flex flex-column">

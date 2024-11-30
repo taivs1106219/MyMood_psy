@@ -1,14 +1,51 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useDeferredValue } from "react";
 import cn from "classnames";
 
 function ViewCase({ pageControl, caseControl }) {
   const caseName = useRef(caseControl.get());
   const memo = useRef("");
 
+  const [userdata, setUserdata] = useState({});
+  const [chartData, setChartData] = useState({
+    type: "line",
+    data: {
+      labels: ["0", "0", "0", "0", "0"],
+      datasets: [
+        {
+          label: "心情指數",
+          data: [50, 60, 70, 180, 190],
+          fill: false,
+          borderColor: "blue",
+        },
+      ],
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: "近五日心情指數",
+        },
+      },
+      scales: {
+        y: {
+          min: 0,
+          max: 5,
+          ticks: {
+            stepSize: 1,
+          },
+        },
+      },
+    },
+  });
+
   let delayDebounceFn;
 
   function handleMemo(e) {
     caseName.current = e.target.value;
+  }
+
+  function handleViewMoodNote(){
+    pageControl.set(3)
   }
 
   function handleInput(e) {
@@ -51,6 +88,77 @@ function ViewCase({ pageControl, caseControl }) {
   //   return () =>
   // }, [caseName]);
 
+  // const
+
+  useEffect(() => {
+    async function fetchData() {
+      const userdataRes = JSON.parse(
+        await api.invoke("request-data", [caseName.current, "userdata.json"])
+      );
+
+      const tmpChartData =  {
+        type: "line",
+        data: {
+          labels: ["0", "0", "0", "0", "0"],
+          datasets: [
+            {
+              label: "心情指數",
+              data: [50, 60, 70, 180, 190],
+              fill: false,
+              borderColor: "blue",
+            },
+          ],
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: "近五日心情指數",
+            },
+          },
+          scales: {
+            y: {
+              min: 0,
+              max: 5,
+              ticks: {
+                stepSize: 1,
+              },
+            },
+          },
+        },
+      };
+      console.log(userdataRes);
+      const firstDay = new Date();
+      firstDay.setDate(firstDay.getDate() - 5);
+      for (let i = 0; i < 5; i++) {
+        const tmpDate = new Date(firstDay);
+        // 記錄第一天為暫存
+        tmpDate.setDate(tmpDate.getDate() + i);
+        // 加上偏移量
+        const currentDate = tmpDate.getDate();
+        // 當日日期
+        const currentDateString = `${tmpDate.getFullYear()}${
+          tmpDate.getMonth() + 1 > 9
+            ? tmpDate.getMonth() + 1
+            : "0" + (tmpDate.getMonth() + 1)
+        }${tmpDate.getDate()}`;
+        // 日期字串
+        tmpChartData.data.labels[i] = currentDate + " 日";
+        // 設置日期
+        tmpChartData.data.datasets[0].data[i] =
+          userdataRes[currentDateString] == undefined
+            ? undefined
+            : userdataRes[currentDateString].moodVal;
+        // 設置心情制5
+      }
+      setUserdata(userdataRes);
+      setChartData(tmpChartData)
+    }
+    fetchData();
+  }, []);
+
+  console.log(chartData);
+
   return (
     <>
       <div className="container d-flex flex-column">
@@ -65,7 +173,7 @@ function ViewCase({ pageControl, caseControl }) {
             "icon-link",
             "icon-link-hover"
           )}
-          style={{ "--bs-icon-link-transform": "translate3d(-.125rem, 0, 0)" }}
+          style={{ "--bs-icon-link-transform": "translate3d(-.175rem, 0, 0)" }}
           onClick={handleBack}
           href="#"
         >
@@ -82,7 +190,7 @@ function ViewCase({ pageControl, caseControl }) {
               d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
             />
           </svg>
-          返回
+          首頁
         </a>
         <p
           className="h2"
@@ -91,12 +199,101 @@ function ViewCase({ pageControl, caseControl }) {
         >
           {caseName.current}
         </p>
-        <div className="form-group">
+        <div className="form-group mb-3">
           <textarea
             className="form-control"
             onInput={(e) => handleMemo(e)}
             placeholder="輸入案例備註"
           ></textarea>
+        </div>
+        <div className="d-flex">
+          <div className="mx-1 my-1">
+            <div className="card">
+              <img
+                className="card-img-top"
+                alt="近五日心情指數折線圖"
+                style={{ maxWidth: "30rem" }}
+                draggable="false"
+                src={
+                  "https://quickchart.io/chart?v=4&c=" +
+                  encodeURI(JSON.stringify(chartData))
+                }
+              ></img>
+              <div className="card-body">
+                <h4 className="card-title">心情筆記填寫記錄</h4>
+                <a className="icon-link icon-link-hover" href="#" onClick={handleViewMoodNote}>
+                  點此前往
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={16}
+                    height={16}
+                    fill="currentColor"
+                    className="bi bi-arrow-right"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="mx-1 my-1">
+            <div className="card">
+              <div className="card-body">
+                <h4 className="card-title">測驗作答記錄</h4>
+                <a
+                  className="icon-link icon-link-hover"
+                  href="#"
+                  draggable="false"
+                >
+                  點此前往
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={16}
+                    height={16}
+                    fill="currentColor"
+                    className="bi bi-arrow-right"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="mx-1 my-1">
+            <div className="card">
+              <div className="card-body">
+                <h4 className="card-title">GPT建議記錄</h4>
+                <a
+                  className="icon-link icon-link-hover"
+                  href="#"
+                  draggable="false"
+                >
+                  點此前往
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={16}
+                    height={16}
+                    fill="currentColor"
+                    className="bi bi-arrow-right"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>
