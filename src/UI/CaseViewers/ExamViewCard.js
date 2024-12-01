@@ -26,22 +26,32 @@ function ExamDataViewCard({ dateString, data }) {
       <div className="card-body">
         <h4>{newDateString}</h4>
         <p>
-          {questions.depress.select[data.quesions.p1[0]]}：{data.answers[0]}/4
-          <br></br>
-          {questions.depress.select[data.quesions.p1[1]]}：{data.answers[1]}/4
-          <br></br>
-          {questions.depress.yn[data.quesions.p2[0]]}：
-          {data.answers[2] == 4 ? "是" : "否"}
-          <br></br>
-          {questions.depress.yn[data.quesions.p2[1]]}：
-          {data.answers[3] == 4 ? "是" : "否"}
-          <br></br>
-          {questions.pressure.yn[data.quesions.p3[0]]}：
-          {data.answers[4] == 4 ? "是" : "否"}
-          <br></br>
-          {questions.pressure.yn[data.quesions.p3[1]]}：
-          {data.answers[5] == 4 ? "是" : "否"}
-          <br></br>
+          <ol>
+            <li>
+              {questions.depress.select[data.quesions.p1[0]]}：{data.answers[0]}
+              /4
+            </li>
+            <li>
+              {questions.depress.select[data.quesions.p1[1]]}：{data.answers[1]}
+              /4
+            </li>
+            <li>
+              {questions.depress.yn[data.quesions.p2[0]]}：
+              {data.answers[2] == 4 ? "是" : "否"}
+            </li>
+            <li>
+              {questions.depress.yn[data.quesions.p2[1]]}：
+              {data.answers[3] == 4 ? "是" : "否"}
+            </li>
+            <li>
+              {questions.pressure.yn[data.quesions.p3[0]]}：
+              {data.answers[4] == 4 ? "是" : "否"}
+            </li>
+            <li>
+              {questions.pressure.yn[data.quesions.p3[1]]}：
+              {data.answers[5] == 4 ? "是" : "否"}
+            </li>
+          </ol>
         </p>
       </div>
     </div>
