@@ -2,7 +2,7 @@ import React from "react";
 
 import questions from "../../../res/json/questions.json";
 
-function ExaminationDataViewCard({ dateString, data }) {
+function ExamDataViewCard({ dateString, data }) {
   // const dataObj=JSON.parse(data)
 
   const newDate = dateString;
@@ -48,4 +48,4 @@ function ExaminationDataViewCard({ dateString, data }) {
   );
 }
 
-export default ExaminationDataViewCard;
+export default ExamDataViewCard;

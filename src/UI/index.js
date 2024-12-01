@@ -9,7 +9,7 @@ import Homepage from "./Homepage";
 import AddCase from "./AddCase";
 import ViewCase from "./ViewCase";
 import MoodNoteViewer from "./CaseViewers/MoodNoteViewer";
-import ExaminationDataViewer from "./CaseViewers/ExaminationDataViewer";
+import ExamDataViewer from "./CaseViewers/ExamViewer";
 
 function App() {
   const [pageControl, setPageControl] = useState(0);
@@ -81,7 +81,7 @@ function App() {
         );
       case 4:
         return (
-          <ExaminationDataViewer
+          <ExamDataViewer
             pageControl={{
               get: () => {
                 return pageControl;
@@ -94,7 +94,7 @@ function App() {
               },
               set: setCaseControl,
             }}
-          ></ExaminationDataViewer>
+          ></ExamDataViewer>
         );
     }
   }

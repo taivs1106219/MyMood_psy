@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import MoodNoteViewCard from "./MoodNoteViewCard";
-import ExaminationDataViewCard from "./ExaminationDataViewCard";
+import ExamDataViewCard from "./ExamViewCard";
 
-function ExaminationDataViewer({ pageControl, caseControl }) {
+function ExamDataViewer({ pageControl, caseControl }) {
   const [userdata, setUserdata] = useState({});
 
   function handleBack() {
@@ -63,10 +63,10 @@ function ExaminationDataViewer({ pageControl, caseControl }) {
         {Object.keys(userdata)
           .map((e) => {
             return (
-              <ExaminationDataViewCard
+              <ExamDataViewCard
                 dateString={e}
                 data={userdata[e]}
-              ></ExaminationDataViewCard>
+              ></ExamDataViewCard>
             );
           })
           .reverse()}
@@ -75,4 +75,4 @@ function ExaminationDataViewer({ pageControl, caseControl }) {
   );
 }
 
-export default ExaminationDataViewer;
+export default ExamDataViewer;
