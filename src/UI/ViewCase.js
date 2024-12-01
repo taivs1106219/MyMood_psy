@@ -44,10 +44,6 @@ function ViewCase({ pageControl, caseControl }) {
     caseName.current = e.target.value;
   }
 
-  function handleViewMoodNote(){
-    pageControl.set(3)
-  }
-
   function handleInput(e) {
     clearTimeout(delayDebounceFn);
     console.log(e);
@@ -82,13 +78,6 @@ function ViewCase({ pageControl, caseControl }) {
   function handleBack() {
     pageControl.set(0);
   }
-
-  // useEffect(() => {
-
-  //   return () =>
-  // }, [caseName]);
-
-  // const
 
   useEffect(() => {
     async function fetchData() {
@@ -221,7 +210,7 @@ function ViewCase({ pageControl, caseControl }) {
               ></img>
               <div className="card-body">
                 <h4 className="card-title">心情筆記填寫記錄</h4>
-                <a className="icon-link icon-link-hover" href="#" onClick={handleViewMoodNote}>
+                <a className="icon-link icon-link-hover" href="#" onClick={()=>pageControl.set(3)}>
                   點此前往
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -248,6 +237,7 @@ function ViewCase({ pageControl, caseControl }) {
                   className="icon-link icon-link-hover"
                   href="#"
                   draggable="false"
+                  onClick={()=>pageControl.set(4)}
                 >
                   點此前往
                   <svg

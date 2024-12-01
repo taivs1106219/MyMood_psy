@@ -9,6 +9,7 @@ import Homepage from "./Homepage";
 import AddCase from "./AddCase";
 import ViewCase from "./ViewCase";
 import MoodNoteViewer from "./CaseViewers/MoodNoteViewer";
+import ExaminationDataViewer from "./CaseViewers/ExaminationDataViewer";
 
 function App() {
   const [pageControl, setPageControl] = useState(0);
@@ -78,6 +79,23 @@ function App() {
             }}
           ></MoodNoteViewer>
         );
+      case 4:
+        return (
+          <ExaminationDataViewer
+            pageControl={{
+              get: () => {
+                return pageControl;
+              },
+              set: setPageControl,
+            }}
+            caseControl={{
+              get: () => {
+                return caseControl;
+              },
+              set: setCaseControl,
+            }}
+          ></ExaminationDataViewer>
+        );
     }
   }
 
@@ -93,7 +111,7 @@ function App() {
 
 async function main() {
   const root = document.createElement("div");
-  root.setAttribute("id","app")
+  root.setAttribute("id", "app");
   document.body.appendChild(root);
   const reactRoot = createRoot(root);
   reactRoot.render(<App></App>);
