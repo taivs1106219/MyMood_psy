@@ -41,7 +41,6 @@ function Homepage({ pageControl, caseControl }) {
               <CaseCard
                 key={e}
                 name={e}
-                memo=""
                 caseControl={caseControl}
                 pageControl={pageControl}
               ></CaseCard>

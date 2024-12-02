@@ -1,17 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import icons from "../../res/icons/icons";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import casecardCss from "../scss/casecard.scss";
 
-function CaseCard({ name, memo, caseControl, pageControl }) {
+function CaseCard({ name, caseControl, pageControl }) {
+  const [memo, setMemo] = useState("");
   function handleClick() {
     caseControl.set(name);
-    pageControl.set(2)
+    pageControl.set(2);
   }
+
+  useEffect(() => {
+    async function fetchData() {
+      api.invoke("request-data", [name, "psyConfig.json"]).then((res) => {
+        if (res != undefined) {
+          setMemo(JSON.parse(res).memo);
+        }
+      });
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
-      <div className="px-2 pb-3" style={{ maxWidth: "40rem",minWidth:"25rem" }}>
+      <div
+        className="px-2 pb-3"
+        style={{ maxWidth: "40rem", minWidth: "25rem" }}
+      >
         <div className="card casecard" onClick={handleClick}>
           <div className="card-body">
             <div className="d-flex flex-column">
@@ -25,7 +40,7 @@ function CaseCard({ name, memo, caseControl, pageControl }) {
                 </span>
               </div>
 
-              <div>{memo}</div>
+              <h5 className="card-subtitle text-secondary">{memo}</h5>
             </div>
           </div>
         </div>
