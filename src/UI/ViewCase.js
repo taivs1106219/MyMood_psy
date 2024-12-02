@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect, useDeferredValue } from "react";
 import cn from "classnames";
 
-function ViewCase({ pageControl, caseControl }) {
+function ViewCase({ pageControl, caseControl, datapath }) {
   const caseName = useRef(caseControl.get());
-  const memo = useRef("");
+  const [psyConfig, setPsyConfig] = useState({});
 
   const [userdata, setUserdata] = useState({});
   const [chartData, setChartData] = useState({
@@ -41,8 +41,20 @@ function ViewCase({ pageControl, caseControl }) {
   let delayDebounceFn;
 
   function handleMemo(e) {
-    caseName.current = e.target.value;
+    const tmpConf = JSON.parse(JSON.stringify(psyConfig));
+    setPsyConfig(Object.assign(tmpConf, { memo: e.target.value }));
   }
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      console.log(datapath + "/cases/" + caseName.current + "/psyConfig.json");
+      api.send("write-file", [
+        datapath + "/cases/" + caseName.current + "/psyConfig.json",
+        JSON.stringify(psyConfig, null, 2),
+      ]);
+    }, 500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [psyConfig]);
 
   function handleInput(e) {
     clearTimeout(delayDebounceFn);
@@ -74,6 +86,23 @@ function ViewCase({ pageControl, caseControl }) {
       api.removeIPCListener("rename-failed");
     };
   }, []);
+  useEffect(() => {
+    async function getPsyConfig() {
+      let psyConfig = {};
+      api
+        .invoke("request-data", [caseName.current, "psyConfig.json"])
+        .then((res) => {
+          if (res != undefined) {
+            psyConfig = JSON.parse(res);
+          }
+          if (psyConfig.memo == undefined) {
+            Object.assign(psyConfig, { memo: "" });
+          }
+          setPsyConfig(psyConfig);
+        });
+    }
+    getPsyConfig();
+  }, []);
 
   function handleBack() {
     pageControl.set(0);
@@ -85,7 +114,7 @@ function ViewCase({ pageControl, caseControl }) {
         await api.invoke("request-data", [caseName.current, "userdata.json"])
       );
 
-      const tmpChartData =  {
+      const tmpChartData = {
         type: "line",
         data: {
           labels: ["0", "0", "0", "0", "0"],
@@ -116,7 +145,6 @@ function ViewCase({ pageControl, caseControl }) {
           },
         },
       };
-      console.log(userdataRes);
       const firstDay = new Date();
       firstDay.setDate(firstDay.getDate() - 5);
       for (let i = 0; i < 5; i++) {
@@ -141,12 +169,12 @@ function ViewCase({ pageControl, caseControl }) {
         // 設置心情制5
       }
       setUserdata(userdataRes);
-      setChartData(tmpChartData)
+      setChartData(tmpChartData);
     }
     fetchData();
   }, []);
 
-  console.log(chartData);
+  console.log(psyConfig);
 
   return (
     <>
@@ -191,6 +219,7 @@ function ViewCase({ pageControl, caseControl }) {
         <div className="form-group mb-3">
           <textarea
             className="form-control"
+            value={psyConfig.memo == undefined ? "" : psyConfig.memo}
             onInput={(e) => handleMemo(e)}
             placeholder="輸入案例備註"
           ></textarea>
@@ -210,7 +239,11 @@ function ViewCase({ pageControl, caseControl }) {
               ></img>
               <div className="card-body">
                 <h4 className="card-title">心情筆記填寫記錄</h4>
-                <a className="icon-link icon-link-hover" href="#" onClick={()=>pageControl.set(3)}>
+                <a
+                  className="icon-link icon-link-hover"
+                  href="#"
+                  onClick={() => pageControl.set(3)}
+                >
                   點此前往
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -237,7 +270,7 @@ function ViewCase({ pageControl, caseControl }) {
                   className="icon-link icon-link-hover"
                   href="#"
                   draggable="false"
-                  onClick={()=>pageControl.set(4)}
+                  onClick={() => pageControl.set(4)}
                 >
                   點此前往
                   <svg
@@ -265,7 +298,7 @@ function ViewCase({ pageControl, caseControl }) {
                   className="icon-link icon-link-hover"
                   href="#"
                   draggable="false"
-                  onClick={()=>pageControl.set(5)}
+                  onClick={() => pageControl.set(5)}
                 >
                   點此前往
                   <svg

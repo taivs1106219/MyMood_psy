@@ -12,6 +12,8 @@ import MoodNoteViewer from "./CaseViewers/MoodNoteViewer";
 import ExamDataViewer from "./CaseViewers/ExamViewer";
 import GPTResViewer from "./CaseViewers/GPTResViewer";
 
+let datapath = "";
+
 function App() {
   const [pageControl, setPageControl] = useState(0);
   const [caseControl, setCaseControl] = useState("");
@@ -61,6 +63,7 @@ function App() {
               },
               set: setCaseControl,
             }}
+            datapath={datapath}
           ></ViewCase>
         );
       case 3:
@@ -132,6 +135,8 @@ async function main() {
   root.setAttribute("id", "app");
   document.body.appendChild(root);
   const reactRoot = createRoot(root);
+  datapath = await api.invoke("get-datapath");
+
   reactRoot.render(<App></App>);
 }
 

@@ -43,6 +43,36 @@ const createWindow = () => {
           path.join(dataPath, "cases", ".mymood_new"),
           path.join(dataPath, "cases", caseName)
         );
+        const psyConfig = JSON.parse(
+          await fs.readFile(
+            path.join(dataPath, "cases", caseName, "psyConfig.json")
+          )
+        );
+
+        await fs.rm(path.join(dataPath, "cases", caseName, "config.json"));
+
+        if (psyConfig.deleteMoodNote) {
+          try {
+            const userdata = JSON.parse(
+              await fs.readFile(
+                path.join(dataPath, "cases", caseName, "userdata.json")
+              )
+            );
+            console.log(userdata);
+            delete userdata["SiLiao"];
+            const keys = Object.keys(userdata);
+            keys.forEach((e) => {
+              userdata[e].notes = "由用戶隱藏";
+            });
+            await fs.writeFile(
+              path.join(dataPath, "cases", caseName, "userdata.json"),
+              JSON.stringify(userdata)
+            );
+          } catch (e) {
+            console.log(e);
+          }
+        }
+
         win.webContents.send("import-completed");
       }
     );
@@ -74,14 +104,20 @@ const createWindow = () => {
     }
   });
   ipcMain.handle("request-data", async (e, [caseName, fileName]) => {
-    console.log(caseName,fileName)
+    console.log(caseName, fileName);
     try {
-      const filePath = path.join(dataPath, "cases", caseName, fileName)
-      const data=await fs.readFile(filePath);
-      return(data.toString())
+      const filePath = path.join(dataPath, "cases", caseName, fileName);
+      const data = await fs.readFile(filePath);
+      return data.toString();
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
+  });
+  ipcMain.on("write-file", (e, [path, data]) => {
+    fs.writeFile(path, data);
+  });
+  ipcMain.handle("get-datapath", async () => {
+    return dataPath;
   });
   win.loadFile("dist/index.html");
 };
