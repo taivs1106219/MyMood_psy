@@ -6,7 +6,6 @@ function GPTResViewCard({ dateString, data }) {
   for (let i = 0; i < 4; i++) {
     newDateString += newDate[i];
   }
-  console.log(newDateString);
   newDateString += "-";
   for (let i = 4; i < 6; i++) {
     newDateString += newDate[i];
@@ -15,15 +14,12 @@ function GPTResViewCard({ dateString, data }) {
   for (let i = 6; i < 8; i++) {
     newDateString += newDate[i];
   }
+  console.log(data);
   return (
     <div className="card mb-2">
       <div className="card-body">
-        <h4>{newDateString}</h4>
-        <p>心情指數：{data.moodVal}</p>
-        <p>
-          心情筆記：<br></br>
-          {data.notes}
-        </p>
+        <h4>{data[0]}</h4>
+        <p>{data[1]}</p>
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ import AddCase from "./AddCase";
 import ViewCase from "./ViewCase";
 import MoodNoteViewer from "./CaseViewers/MoodNoteViewer";
 import ExamDataViewer from "./CaseViewers/ExamViewer";
+import GPTResViewer from "./CaseViewers/GPTResViewer";
 
 function App() {
   const [pageControl, setPageControl] = useState(0);
@@ -95,6 +96,23 @@ function App() {
               set: setCaseControl,
             }}
           ></ExamDataViewer>
+        );
+      case 5:
+        return (
+          <GPTResViewer
+            pageControl={{
+              get: () => {
+                return pageControl;
+              },
+              set: setPageControl,
+            }}
+            caseControl={{
+              get: () => {
+                return caseControl;
+              },
+              set: setCaseControl,
+            }}
+          ></GPTResViewer>
         );
     }
   }

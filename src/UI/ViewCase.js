@@ -265,6 +265,7 @@ function ViewCase({ pageControl, caseControl }) {
                   className="icon-link icon-link-hover"
                   href="#"
                   draggable="false"
+                  onClick={()=>pageControl.set(5)}
                 >
                   點此前往
                   <svg

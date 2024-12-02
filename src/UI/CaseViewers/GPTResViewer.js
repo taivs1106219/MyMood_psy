@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
-import GPTViewCard from "./MoodNoteViewCard";
+import GPTResViewCard from "./GPTResViewCard";
 
 function GPTResViewer({ pageControl, caseControl }) {
   const [userdata, setUserdata] = useState({});
@@ -19,7 +19,6 @@ function GPTResViewer({ pageControl, caseControl }) {
     }
     getUserdata();
   }, []);
-  console.log(userdata);
   return (
     <>
       <div className="container" id="main-content">
@@ -60,10 +59,10 @@ function GPTResViewer({ pageControl, caseControl }) {
         {Object.keys(userdata)
           .map((e) => {
             return (
-              <MoodNoteViewCard
+              <GPTResViewCard
                 dateString={e}
                 data={userdata[e]}
-              ></MoodNoteViewCard>
+              ></GPTResViewCard>
             );
           })
           .reverse()}
