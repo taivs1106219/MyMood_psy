@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import icons from "../../res/icons/icons";
 import DeleteConfirmModal from "./DeleteConfirmModal";
-import casecardCss from "../scss/casecard.scss";
 
 function CaseCard({ name, caseControl, pageControl }) {
   const [memo, setMemo] = useState("");
@@ -27,7 +26,7 @@ function CaseCard({ name, caseControl, pageControl }) {
         className="px-2 pb-3"
         style={{ maxWidth: "40rem", minWidth: "25rem" }}
       >
-        <div className="card casecard" onClick={handleClick}>
+        <div className="card casecard">
           <div className="card-body">
             <div className="d-flex flex-column">
               <div className="d-flex">
@@ -39,8 +38,25 @@ function CaseCard({ name, caseControl, pageControl }) {
                   <icons.Trash3 width={22} height={22}></icons.Trash3>
                 </span>
               </div>
-
-              <h5 className="card-subtitle text-secondary">{memo}</h5>
+              <h5 className="card-subtitle text-secondary mb-2">{memo}</h5>
+              <h5>
+                <a className="icon-link icon-link-hover" onClick={handleClick}>
+                  點此前往
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={16}
+                    height={16}
+                    fill="currentColor"
+                    className="bi bi-arrow-right"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
+                    />
+                  </svg>
+                </a>
+              </h5>
             </div>
           </div>
         </div>
