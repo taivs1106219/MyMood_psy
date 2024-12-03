@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React from "react";
-
+import logo_black from "../../res/images/logo_black.png"
 import cn from "classnames";
 import icons from "../../res/icons/icons";
 
@@ -40,7 +40,8 @@ export function Navbar() {
           "align-items-center"
         )}
       >
-        <h3>MyMood</h3>
+        <img src={logo_black} alt="MyMood" className="h-100"></img>
+        <h4 className="mb-0">心理師端</h4>
       </div>
     </>
   );
