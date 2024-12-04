@@ -43,11 +43,20 @@ const createWindow = () => {
           path.join(dataPath, "cases", ".mymood_new"),
           path.join(dataPath, "cases", caseName)
         );
-        const psyConfig = JSON.parse(
-          await fs.readFile(
+
+        let psyConfig = {};
+        try {
+          checkFileExists(
             path.join(dataPath, "cases", caseName, "psyConfig.json")
-          )
-        );
+          );
+          psyConfig = JSON.parse(
+            await fs.readFile(
+              path.join(dataPath, "cases", caseName, "psyConfig.json")
+            )
+          );
+        } catch (e) {
+          // pass
+        }
 
         await fs.rm(path.join(dataPath, "cases", caseName, "config.json"));
 
