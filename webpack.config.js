@@ -62,7 +62,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "MyMood",
+      title: "MyMood 心理師端",
     }),
   ],
 };

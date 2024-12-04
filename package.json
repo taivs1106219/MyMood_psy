@@ -39,7 +39,7 @@
       "output": "out"
     },
     "generateUpdatesFilesForAllChannels": true,
-    "productName": "MyMood for Psycotherapists",
+    "productName": "MyMood 心理師端",
     "files": [
       "main.js",
       "package.json",
