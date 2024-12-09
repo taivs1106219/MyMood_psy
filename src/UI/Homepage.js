@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import CaseCard from "./CaseCard";
 import icons from "../../res/icons/icons";
 // import ImportModal from "./Backup/ImportModal";
+import cn from "classnames";
 
-function Homepage({ pageControl, caseControl }) {
+function Homepage({ pageControl, caseControl, themeControl, datapath }) {
   const [cases, setCases] = useState([]);
 
   async function getCases() {
@@ -14,7 +15,7 @@ function Homepage({ pageControl, caseControl }) {
     getCases();
   }, []);
 
-  function handleClick() {
+  function handleAddCase() {
     pageControl.set(1);
   }
 
@@ -26,14 +27,40 @@ function Homepage({ pageControl, caseControl }) {
     return () => api.removeIPCListener("delete-completed");
   });
 
+  function handleClick(e) {
+    if (e.target.checked) {
+      themeControl.set("dark");
+      api.send("write-file", [datapath + "/theme", "dark"]);
+    } else {
+      themeControl.set("light");
+      api.send("write-file", [datapath + "/theme", "light"]);
+    }
+  }
+
   return (
     <>
       {/* <ImportModal getCases={getCases}></ImportModal> */}
       <div className="container">
-        <div className="w-100 mb-4 ms-2">
-          <button className="btn btn-lg btn-light" onClick={handleClick}>
+        <div className="w-100 d-flex justify-content-between mb-4 ms-2">
+          <button
+            className={cn("btn", "btn-lg", "btn-" + themeControl.get())}
+            onClick={handleAddCase}
+          >
             <icons.Plus_circle width={"30"} height={"30"}></icons.Plus_circle>
           </button>
+          <div class="form-check form-switch form-check-reverse">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckDefault"
+              onChange={(e) => handleClick(e)}
+              checked={themeControl.get() == "dark" ? true : false}
+            ></input>
+            <label class="form-check-label" for="flexSwitchCheckDefault">
+              深色模式
+            </label>
+          </div>
         </div>
         <div className="d-flex flex-wrap align-content-start">
           {cases.map((e, i) => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import GPTResViewCard from "./GPTResViewCard";
 
-function GPTResViewer({ pageControl, caseControl }) {
+function GPTResViewer({ pageControl, caseControl,theme }) {
   const [userdata, setUserdata] = useState({});
 
   function handleBack() {
@@ -33,7 +33,7 @@ function GPTResViewer({ pageControl, caseControl }) {
             "icon-link",
             "icon-link-hover",
             "sticky-top",
-            "bg-white",
+            "bg-" + theme,
             "w-100"
           )}
           style={{ "--bs-icon-link-transform": "translate3d(-.175rem, 0, 0)" }}

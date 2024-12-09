@@ -1,14 +1,17 @@
 import classNames from "classnames";
 import React from "react";
-import logo_black from "../../res/images/logo_black.png"
+import logo_light from "../../res/images/logo_light.png";
+import logo_dark from "../../res/images/logo_dark.png";
 import cn from "classnames";
 import icons from "../../res/icons/icons";
 
-export function Navbar() {
+export function Navbar({ theme }) {
   function handleClick() {
     api.send("get-devices-v2", "adb");
     api.send("get-devices-v2", "fb");
   }
+  console.log(theme)
+  const logo = theme == "light" ? logo_light : logo_dark;
   return (
     <>
       <button
@@ -40,7 +43,7 @@ export function Navbar() {
           "align-items-center"
         )}
       >
-        <img src={logo_black} alt="MyMood" className="h-100"></img>
+        <img src={logo} alt="MyMood" className="h-100"></img>
         <h4 className="mb-0">心理師端</h4>
       </div>
     </>

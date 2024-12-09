@@ -3,7 +3,7 @@ import cn from "classnames";
 import MoodNoteViewCard from "./MoodNoteViewCard";
 import ExamDataViewCard from "./ExamViewCard";
 
-function ExamDataViewer({ pageControl, caseControl }) {
+function ExamDataViewer({ pageControl, caseControl,theme }) {
   const [userdata, setUserdata] = useState({});
 
   function handleBack() {
@@ -37,7 +37,7 @@ function ExamDataViewer({ pageControl, caseControl }) {
             "icon-link",
             "icon-link-hover",
             "sticky-top",
-            "bg-white",
+            "bg-" + theme,
             "w-100"
           )}
           style={{ "--bs-icon-link-transform": "translate3d(-.175rem, 0, 0)" }}

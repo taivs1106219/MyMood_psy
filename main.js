@@ -5,6 +5,8 @@ const os = require("os");
 const dataPath = path.join(os.homedir(), ".mymood_psy");
 const tar = require("tar");
 
+let theme = "";
+
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 1200,
@@ -113,7 +115,6 @@ const createWindow = () => {
     }
   });
   ipcMain.handle("request-data", async (e, [caseName, fileName]) => {
-    console.log(caseName, fileName);
     try {
       const filePath = path.join(dataPath, "cases", caseName, fileName);
       const data = await fs.readFile(filePath);
@@ -121,6 +122,9 @@ const createWindow = () => {
     } catch (e) {
       console.log(e);
     }
+  });
+  ipcMain.handle("get-theme", async (e) => {
+    return theme;
   });
   ipcMain.on("write-file", (e, [path, data]) => {
     fs.writeFile(path, data);
@@ -153,6 +157,11 @@ async function main() {
     } catch (e) {
       await fs.mkdir(path.join(dataPath, "cases"));
     }
+  }
+  try {
+    theme = (await fs.readFile(path.join(dataPath, "theme"))).toString();
+  } catch (e) {
+    theme = "light";
   }
   await app.whenReady();
   createWindow();

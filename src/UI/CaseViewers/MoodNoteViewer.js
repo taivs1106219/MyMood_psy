@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import MoodNoteViewCard from "./MoodNoteViewCard";
 
-function MoodNoteViewer({ pageControl, caseControl }) {
+function MoodNoteViewer({ pageControl, caseControl, theme }) {
   const [userdata, setUserdata] = useState({});
 
   function handleBack() {
@@ -22,7 +22,7 @@ function MoodNoteViewer({ pageControl, caseControl }) {
   console.log(userdata);
   return (
     <>
-      <div className="container" id="main-content" >
+      <div className="container" id="main-content">
         <a
           draggable="false"
           className={cn(
@@ -34,7 +34,8 @@ function MoodNoteViewer({ pageControl, caseControl }) {
             "icon-link",
             "icon-link-hover",
             "sticky-top",
-            "bg-white","w-100"
+            "bg-" + theme,
+            "w-100"
           )}
           style={{ "--bs-icon-link-transform": "translate3d(-.175rem, 0, 0)" }}
           onClick={handleBack}
@@ -56,9 +57,16 @@ function MoodNoteViewer({ pageControl, caseControl }) {
           {caseControl.get()}
         </a>
         <h2>心情筆記填寫記錄</h2>
-        {Object.keys(userdata).map((e) => {
-          return <MoodNoteViewCard dateString={e} data={userdata[e]}></MoodNoteViewCard>;
-        }).reverse()}
+        {Object.keys(userdata)
+          .map((e) => {
+            return (
+              <MoodNoteViewCard
+                dateString={e}
+                data={userdata[e]}
+              ></MoodNoteViewCard>
+            );
+          })
+          .reverse()}
       </div>
     </>
   );
