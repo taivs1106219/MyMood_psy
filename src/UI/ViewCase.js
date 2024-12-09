@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useDeferredValue } from "react";
 import cn from "classnames";
 
-function ViewCase({ pageControl, caseControl, datapath }) {
+function ViewCase({ pageControl, caseControl, datapath, theme }) {
   const caseName = useRef(caseControl.get());
   const [psyConfig, setPsyConfig] = useState({});
 
@@ -37,6 +37,16 @@ function ViewCase({ pageControl, caseControl, datapath }) {
       },
     },
   });
+
+  if (theme == "dark") {
+    chartData.options.scales.y.grid = { color: "rgb(255,255,255)" };
+    chartData.options.scales.x = {
+      grid: {
+        color: "rgb(255,255,255)",
+      },
+    };
+    chartData.data.datasets[0].borderColor = "rgb(13,202,240)";
+  }
 
   let delayDebounceFn;
 

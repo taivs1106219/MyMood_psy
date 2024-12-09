@@ -77,6 +77,7 @@ function App() {
               set: setCaseControl,
             }}
             datapath={datapath}
+            theme={theme}
           ></ViewCase>
         );
       case 3:
